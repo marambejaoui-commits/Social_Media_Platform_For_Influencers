@@ -5,7 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,11 +27,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
 
 
-        if (request.getServletPath().equals("/api/auth/register") ||
-                request.getServletPath().equals("/api/auth/login")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+
         String token = getJWTFromRequest(request);
         if (StringUtils.hasText(token) &&  jwtGenerator.validateToken( token)) {
             String email = jwtGenerator.getEmailFromJWT(token);
